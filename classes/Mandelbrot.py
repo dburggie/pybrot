@@ -37,8 +37,8 @@ class Mandelbrot:
 		hh = self.height / 2.0
 		self.x0 = self.x - hw
 		self.x1 = self.x + hw
-		self.y0 = self.y - hh
-		self.y1 = self.y + hh
+		self.y0 = self.y + hh
+		self.y1 = self.y - hh
 	
 	def render(self, depth = 16):
 		if (self.rendered):
@@ -52,7 +52,12 @@ class Mandelbrot:
 		z = Zed(0.0,0.0)
 		
 		y = 0
+		notify = self.yPix / 100
+		percent = 0
 		while (y < self.yPix):
+			if (y % notify == 0):
+				print "{}% done".format(percent)
+				percent += 1
 			x = 0
 			xPos = self.x0
 			while (x < self.xPix):
@@ -65,7 +70,7 @@ class Mandelbrot:
 				x += 1
 				xPos += xStep
 			y += 1
-			yPos += yStep
+			yPos -= yStep
 		self.rendered = True
 		return False
 	
