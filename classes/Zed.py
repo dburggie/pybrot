@@ -4,7 +4,7 @@ from Complex import Complex
 zero = Scalar(0,0)	
 origin = Complex( zero, zero )
 
-class Mandelbrot:
+class Zed:
 	
 	def __init__(self):
 		self.position = origin.clone()
