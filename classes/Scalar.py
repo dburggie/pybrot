@@ -1,4 +1,5 @@
 
+zero = Scalar(0,0)
 
 class Scalar:
 	
@@ -33,8 +34,24 @@ class Scalar:
 		self._m *= s._m
 		self._e += s._e
 	
+	def halve(self):
+		self._e -= 1
+	
+	def divide(self, d, precision = 16):
+		e = self._e - precision
+		m = self._m * 2 ** precision
+		m /= d
+		while (m % 2 == 0):
+			m /= 2
+			e += 1
+		self._m = m
+		self._e = e
+	
 	def negate(self):
 		self._m *= -1
+	
+	def scale(self, s):
+		self._m *= s
 	
 	def addBy(self, s):
 		if (self._e > s._e):

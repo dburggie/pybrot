@@ -1,7 +1,7 @@
 from Scalar import Scalar
 from Complex import Complex
 
-zero = Scalar(0,0)	
+zero   = Scalar(0,0)	
 origin = Complex( zero, zero )
 
 class Zed:

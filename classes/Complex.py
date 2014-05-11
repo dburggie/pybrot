@@ -53,6 +53,18 @@ class Complex:
 		self.r.copy(r)
 		self.i.copy(i)
 	
+	def halve(self):
+		self.r.halve()
+		self.i.halve()
+	
+	def divide(self, d, p = 16):
+		self.r.divide(d,p)
+		self.i.divide(d,p)
+	
+	def scale(self, s):
+		self.r.multiplyBy(s)
+		self.i.multiplyBy(s)
+	
 	def multiplyBy(self, c):
 		
 		r = self.r.clone()
@@ -71,6 +83,17 @@ class Complex:
 		
 		self.r.copy(r)
 		self.i.copy(i)
+	
+	def square(self):
+		# r <- rr - ii
+		# i <- 2ri
+		i = self.i.clone()
+		self.i.multiplyBy(self.r)
+		self.i.scale(2)
+		self.r.multiplyBy(self.r)
+		i.multiplyBy(i)
+		i.scale(-1)
+		self.r.addBy(i)
 	
 	def addBy(self, c):
 		self.r.addBy(c.r)
