@@ -51,8 +51,8 @@ public class Complex
 	
 	public double magnitude()
 	{
-		double r = realPart.toDouble();
-		double i = imaginaryPart.toDouble();
+		double r = realPart.size();
+		double i = imaginaryPart.size();
 		return r*r + i*i
 	}
 	

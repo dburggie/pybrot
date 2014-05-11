@@ -109,10 +109,8 @@ public class Scalar
 		}
 	}
 	
-	public double toDouble()
+	public double size()
 	{
-		double s = (double) mantissa;
-		s *= Math.pow(2, exponent);
-		return s;
+		return mantiss * Math.pow(2.0, exponent);
 	}
 }
