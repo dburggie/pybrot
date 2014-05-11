@@ -2,21 +2,6 @@
 
 class Complex:
 	
-	def fromDouble(d):
-		
-		exp = 0
-		
-		if (d < 0):
-			d *= -1
-			negate = True
-		else:
-			negate = False
-		
-		while (d > (int) d):
-			d *= 2
-			exp -= 1
-		
-	
 	def __init__(self, r, i):
 		self.r = r.clone()
 		self.i = i.clone()
@@ -57,6 +42,10 @@ class Complex:
 		self.r.halve()
 		self.i.halve()
 	
+	def pMultiply(self, d, p = 16):
+		self.r.pMultiply(d,p)
+		self.i.pMultiply(d,p)
+
 	def divide(self, d, p = 16):
 		self.r.divide(d,p)
 		self.i.divide(d,p)

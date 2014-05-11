@@ -1,6 +1,4 @@
 
-zero = Scalar(0,0)
-
 class Scalar:
 	
 	def __init__(self, mantissa, exponent):
@@ -30,6 +28,16 @@ class Scalar:
 			e = t._e
 		return Scalar(m,e)
 	
+	def pMultiply(self, d, p = 16):
+		m = self._m * 2 ** p
+		m = int(m * d)
+		e = self._e - p
+		while (m % 2 == 0):
+			m /= 2
+			e -= 1
+		self._m = m
+		self._e = e
+
 	def multiplyBy(self, s):
 		self._m *= s._m
 		self._e += s._e
@@ -40,7 +48,7 @@ class Scalar:
 	def divide(self, d, precision = 16):
 		e = self._e - precision
 		m = self._m * 2 ** precision
-		m /= d
+		m = int(m / d)
 		while (m % 2 == 0):
 			m /= 2
 			e += 1
@@ -59,7 +67,7 @@ class Scalar:
 			self._m += s._m
 			self._e = s._e
 		else:
-			m += s._m * (2 ** s._e - self._e)
+			self._m += s._m * (2 ** s._e - self._e)
 	
 	def size(self):
 		return self._m * (2.0 ** self._e)

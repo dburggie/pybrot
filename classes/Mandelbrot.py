@@ -5,7 +5,7 @@ from Zed import Zed, zero, origin
 from pypng import Png
 
 def colorize(zed, depth, samplemax = 255):
-	if (zed.genertion == depth):
+	if (not zed.escaped):
 		return [0,0,0]
 	distance = zed.generation - 1
 	distance *= 1.0 / (depth - 1)
@@ -47,7 +47,7 @@ class Mandelbrot:
 	def setWidth(self, width):
 		self.width.copy(width)
 	
-	def setHeight(self, height:
+	def setHeight(self, height):
 		self.height.copy(height)
 	
 	def setWindowSize(self, width, height):
@@ -57,7 +57,7 @@ class Mandelbrot:
 	def setPixels(self, xPix, yPix):
 		self.xPix = xPix
 		self.yPix = yPix
-		setup = True
+		self.setup = True
 	
 	def render(self, filename = None, depth = 32):
 		if (not self.setup):
@@ -69,7 +69,8 @@ class Mandelbrot:
 			return True
 
 		if (not filename):
-			filename = "mandelbrot-{0}x{1}x{2}.png".format(xPix,yPix,depth)
+			dims = "{0}x{1}x{2}".format(self.xPix, self.yPix, depth)
+			filename = "mandelbrot-" + dims + ".png"
 		
 		x0 = self.width.clone()
 		x0.halve()
@@ -79,20 +80,37 @@ class Mandelbrot:
 		y0 = self.height.clone()
 		y0.halve()
 		y0.addBy(self.position.i)
-
-		xStep = self.width.clone()
+		
+		xStep = _right.clone()
+		xStep.scale(self.width)
 		xStep.divide(self.xPix)
-		yStep = self.height.clone()
-		yStep.negate()
+		
+		yStep = _down.clone()
+		ystep.scale(self.height)
 		yStep.divide(self.yPix)
 
 		zed = Zed()
+		p = Complex(x0,y0)
 		
 		x = 0
 		y = 0
 
 		while (y < self.yPix):
-			zed.
+			p.r.copy(x0)
+			while (x < self.xPix):
+				zed.refresh(p)
+				while (not zed.escaped and zed.generation < depth):
+					zed.iterate(depth)
+				self.image.set_pixel( x,y, colorize(zed, depth) )
+				p.addBy(xStep)
+				x += 1
+			p.addBy(yStep)
+			y += 1
+
+		self.image.write(filename, True)
+
+		return False
+					
 
 		
 	
