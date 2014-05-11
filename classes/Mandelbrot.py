@@ -94,8 +94,12 @@ class Mandelbrot:
 		
 		x = 0
 		y = 0
-
+		
+		progress = self.yPix / 20
+		
 		while (y < self.yPix):
+			if (y % progress == 0):
+				print "{}% done".format(5 * self.yPix / y)
 			p.r.copy(x0)
 			while (x < self.xPix):
 				zed.refresh(p)

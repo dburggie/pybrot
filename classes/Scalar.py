@@ -1,9 +1,29 @@
 
+_precision = 64
+_maxMantissa = 2 ** 64
+
 class Scalar:
+	
+	def setGlobalPrecision(p):
+		_precision = p
+		_maxMantissa = 2 ** p
+	
+	def _strip(self):
+		while (self._m % 2 == 0):
+			self._m /= 2
+			self._e += 1
+		while ( abs(self._m) > self._mm ):
+			print self._m, self._mm
+			self._m /= 2
+			self._e += 1
 	
 	def __init__(self, mantissa, exponent):
 		self._m = mantissa
 		self._e = exponent
+		self._p = _precision
+		self._mm = _maxMantissa
+		if (self._m):
+			self._strip()
 	
 	def clone(self):
 		return Scalar(self._m, self._e)
@@ -32,34 +52,32 @@ class Scalar:
 		m = self._m * 2 ** p
 		m = int(m * d)
 		e = self._e - p
-		while (m % 2 == 0):
-			m /= 2
-			e -= 1
 		self._m = m
 		self._e = e
+		self._strip()
 
 	def multiplyBy(self, s):
 		self._m *= s._m
 		self._e += s._e
+		self._strip()
 	
 	def halve(self):
 		self._e -= 1
 	
-	def divide(self, d, precision = 16):
-		e = self._e - precision
-		m = self._m * 2 ** precision
+	def divide(self, d, p = 16):
+		e = self._e - p
+		m = self._m * 2 ** p
 		m = int(m / d)
-		while (m % 2 == 0):
-			m /= 2
-			e += 1
 		self._m = m
 		self._e = e
+		self._strip()
 	
 	def negate(self):
 		self._m *= -1
 	
 	def scale(self, s):
 		self._m *= s
+		self._strip
 	
 	def addBy(self, s):
 		if (self._e > s._e):
@@ -68,6 +86,7 @@ class Scalar:
 			self._e = s._e
 		else:
 			self._m += s._m * (2 ** s._e - self._e)
+		self._strip()
 	
 	def size(self):
 		return self._m * (2.0 ** self._e)
