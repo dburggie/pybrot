@@ -59,7 +59,7 @@ class Mandelbrot:
 		self.yPix = yPix
 		self.setup = True
 	
-	def render(self, filename = None, depth = 32):
+	def render(self, depth = 32):
 		if (not self.setup):
 			print "You need to set up your fractal before you can render it!"
 			return True
@@ -69,16 +69,13 @@ class Mandelbrot:
 			return True
 		else:
 			self.image.set_dimensions(self.xPix, self.yPix)
-
-		if (not filename):
-			dims = "{0}x{1}x{2}".format(self.xPix, self.yPix, depth)
-			filename = "mandelbrot-" + dims + ".png"
+		
 		
 		x0 = self.width.clone()
 		x0.halve()
 		x0.scale(-1)
 		x0.addBy(self.position.r)
-
+		
 		y0 = self.height.clone()
 		y0.halve()
 		y0.addBy(self.position.i)
@@ -90,7 +87,7 @@ class Mandelbrot:
 		yStep = _down.clone()
 		yStep.scale(self.height)
 		yStep.divide(self.yPix)
-
+		
 		zed = Zed()
 		p = Complex(x0,y0)
 		
@@ -112,12 +109,22 @@ class Mandelbrot:
 				x += 1
 			p.addBy(yStep)
 			y += 1
-
-		self.image.write(filename, True)
-
+		
+		self.rendered = True
+		
 		return False
 					
-
+	def write(self, filename = None, interlace = True):
+		if (not self.rendered):
+			print "You should render before writing to file!"
+			return True
+		
+		if (not filename):
+			dims = "{0}x{1}x{2}".format(self.xPix, self.yPix, depth)
+			filename = "mandelbrot-" + dims + ".png"
+		
+		self.image.write(filename, interlace)
+		return False
 		
 	
 	
