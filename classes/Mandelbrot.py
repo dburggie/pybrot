@@ -67,6 +67,8 @@ class Mandelbrot:
 		if (self.rendered):
 			print "You've already rendered this!"
 			return True
+		else:
+			self.image.set_dimensions(self.xPix, self.yPix)
 
 		if (not filename):
 			dims = "{0}x{1}x{2}".format(self.xPix, self.yPix, depth)
@@ -86,7 +88,7 @@ class Mandelbrot:
 		xStep.divide(self.xPix)
 		
 		yStep = _down.clone()
-		ystep.scale(self.height)
+		yStep.scale(self.height)
 		yStep.divide(self.yPix)
 
 		zed = Zed()
@@ -99,7 +101,7 @@ class Mandelbrot:
 		
 		while (y < self.yPix):
 			if (y % progress == 0):
-				print "{}% done".format(5 * self.yPix / y)
+				print "{}% done".format(100 * y / self.yPix)
 			p.r.copy(x0)
 			while (x < self.xPix):
 				zed.refresh(p)

@@ -1,21 +1,20 @@
 
-_precision = 64
+_precision = 72
 _maxMantissa = 2 ** 64
+_clipbits = 8
+_clipvalue = 2 ** _clipbits
 
 class Scalar:
 	
 	def setGlobalPrecision(p):
-		_precision = p
+		_precision = p + _clipbits
 		_maxMantissa = 2 ** p
 	
 	def _strip(self):
-		while (self._m % 2 == 0):
-			self._m /= 2
-			self._e += 1
 		while ( abs(self._m) > self._mm ):
 			print self._m, self._mm
-			self._m /= 2
-			self._e += 1
+			self._m /= _clipvalue
+			self._e += _clipbits
 	
 	def __init__(self, mantissa, exponent):
 		self._m = mantissa

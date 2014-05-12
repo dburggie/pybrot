@@ -8,7 +8,7 @@ class Zed:
 	
 	def __init__(self):
 		self.position = origin.clone()
-		self.iterator = position.clone()
+		self.iterator = self.position.clone()
 		self.generation = 1
 		self.escaped = False
 	
