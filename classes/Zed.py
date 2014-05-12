@@ -16,6 +16,7 @@ class Zed:
 		self.position.copy(position)
 		self.iterator.copy(self.position)
 		self.generation = 1
+		self.escaped = False
 		self.hasEscaped()
 	
 	def iterate(self):
@@ -28,5 +29,6 @@ class Zed:
 	def hasEscaped(self):
 		if (not self.escaped):
 			if (self.iterator.magnitude() > 4.0):
+				print "escaped at generation", self.generation
 				self.escaped = True
 		return self.escaped

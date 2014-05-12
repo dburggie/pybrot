@@ -7,11 +7,11 @@ from pypng import Png
 def colorize(zed, depth, samplemax = 255):
 	if (not zed.escaped):
 		return [0,0,0]
-	distance = zed.generation - 1
-	distance *= 1.0 / (depth - 1)
-	rg = 0.7 * distance ** 2.0
-	rg = int(rg * samplemax)
-	b = int(distance * samplemax)
+	rate = float(zed.generation - 1)
+	rate /= depth - 1
+	rg = 0.7 * (rate ** 0.5)
+	rg = max(0, min(samplemax,int(rg * samplemax)))
+	b = max(0, min(samplemax,int(rate * samplemax)))
 	return [rg,rg,b]
 
 _up    = Complex( zero, Scalar( 1, 0) )
@@ -90,20 +90,21 @@ class Mandelbrot:
 		
 		zed = Zed()
 		p = Complex(x0,y0)
-		
-		x = 0
 		y = 0
 		
 		progress = self.yPix / 20
+		if (not progress):
+			progress = 1
 		
 		while (y < self.yPix):
 			if (y % progress == 0):
 				print "{}% done".format(100 * y / self.yPix)
 			p.r.copy(x0)
+			x = 0
 			while (x < self.xPix):
 				zed.refresh(p)
 				while (not zed.escaped and zed.generation < depth):
-					zed.iterate(depth)
+					zed.iterate()
 				self.image.set_pixel( x,y, colorize(zed, depth) )
 				p.addBy(xStep)
 				x += 1
