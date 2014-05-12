@@ -50,7 +50,7 @@ class Scalar:
 			s._strip()
 			self.multiplyBy(s)
 		else:
-			self.m *= 5 ** self._e
+			self._m *= 5 ** self._e
 		self._strip()
 		
 	

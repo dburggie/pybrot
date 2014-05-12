@@ -14,7 +14,9 @@ class Complex:
 		self.i.copy(c.i)
 	
 	def __mul__(self, c):
-		r = self.r * c.r - self.i * c.i
+		r = self.i * c.i
+		r.negate()
+		r.addBy(self.r * c.r)
 		i = self.r * c.i + self.i * c.r
 		return Complex(r,i)
 	
