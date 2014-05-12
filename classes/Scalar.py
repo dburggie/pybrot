@@ -29,6 +29,7 @@ class Scalar:
 			self._e = 0
 			self._p = _precision
 			self._mm = _maxMantissa
+			self._strip()
 		else:
 			self._m = m
 			self._e = e
@@ -37,11 +38,6 @@ class Scalar:
 			if (decimal):
 				self._decToBin()
 	
-	
-	
-	# gets a negative power of 5
-	def getApproxNegPower(exp):
-		return s		
 	
 	
 	def _decToBin(self):
@@ -62,30 +58,30 @@ class Scalar:
 	def clone(self):
 		return Scalar(self._m, self._e, False)
 	
+	
+	
 	def copy(self, s):
 		self._m = s._m
 		self._e = s._e
 	
-	def setValue(self, m, e):
-		self._m = m
-		self._e = e
-		return self
+	
 	
 	def __mul__( s, t ):
 		return Scalar( s._m * t._m, s._e + t._e, False)
 	
 	def __add__( s, t ):
+		diff = abs(s._e - t._e)
 		if (s._e > t._e):
-			e = s._e - t._e
-			m = s._m * (2 ** e)
+			m = s._m * (2 ** diff)
 			m += t._m
 			e = s._e
 		else:
-			e = t._e - s._e
-			m = t._m * (2 ** e)
+			m = t._m * (2 ** diff)
 			m += s._m
 			e = t._e
 		return Scalar(m,e,False)
+	
+	
 	
 	def pMultiply(self, d, p = 16):
 		m = self._m * 2 ** p
@@ -124,7 +120,7 @@ class Scalar:
 			self._m += s._m
 			self._e = s._e
 		else:
-			self._m += s._m * (2 ** s._e - self._e)
+			self._m += s._m * (2 ** (s._e - self._e) )
 		self._strip()
 	
 	def size(self):

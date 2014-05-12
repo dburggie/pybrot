@@ -7,9 +7,11 @@ from pypng import Png
 def colorize(zed, depth, samplemax = 255):
 	if (not zed.escaped):
 		return [0,0,0]
-	rate = float(zed.generation - 1)
+	print "escaped at", zed.escaped, "of", depth
+	rate = float( depth - zed.generation - 1)
 	rate /= depth - 1
-	rg = 0.7 * (rate ** 0.5)
+	print "escape rate:", rate
+	rg = 0.7 * (rate ** 2.0)
 	rg = max(0, min(samplemax,int(rg * samplemax)))
 	b = max(0, min(samplemax,int(rate * samplemax)))
 	return [rg,rg,b]
@@ -103,7 +105,7 @@ class Mandelbrot:
 			x = 0
 			while (x < self.xPix):
 				zed.refresh(p)
-				while (not zed.escaped and zed.generation < depth):
+				while (not zed.escaped and zed.generation <= depth):
 					zed.iterate()
 				self.image.set_pixel( x,y, colorize(zed, depth) )
 				p.addBy(xStep)
