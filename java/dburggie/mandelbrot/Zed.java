@@ -1,4 +1,4 @@
-package mandelbrot;
+package dburggie.mandelbrot;
 
 public class Zed
 {
