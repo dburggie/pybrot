@@ -55,16 +55,17 @@ public class Zed
 		}
 	}
 	
-	public int speed(int depth)
+	public int speed()
 	{
-		return depth - generation;
+		if (bound) { return 0; }
+		else { return generation; }
 	}
 	
 	public void hasEscaped()
 	{
 		if (bound && iteration.magnitude() > 4.0)
 		{
-				bound = false;
+			bound = false;
 		}
 	}
 }

@@ -104,7 +104,7 @@ public class Mandelbrot
 		
 		
 		Zed tracker = new Zed();
-		Colorizer color = new Colorizer(tracker, depth);
+		Colorizer color = new Colorizer();
 		MyImage image = new MyImage(xPixels, yPixels);
 		
 		for (int y = 0; y < yPixels; y++)
@@ -114,10 +114,10 @@ public class Mandelbrot
 			{
 				tracker.refresh(pos);
 				tracker.iterate(depth);
-				image.setPixel(x,y,color.colorize());
-				position.addBy(dx);
+				image.setPixel(x,y,color.colorize(tracker,depth));
+				pos.addBy(dx);
 			}
-			position.addBy(dy);
+			pos.addBy(dy);
 		}
 		
 		image.write(filename);
