@@ -3,57 +3,51 @@ package mandelbrot;
 public class Complex
 {
 	
-	private Scalar realPart;
-	private Scalar imaginaryPart;
+	private double rp, ip;
 	
 	public Complex( Complex c )
 	{
-		copy(c);
+		rp = c.rp; ip = c.ip;
 	}
 	
-	public Complex( Scalar r, Scalar i )
+	public Complex( double r, double i )
 	{
-		realPart = r.clone();
-		imaginaryPart = i.clone();
+		rp = r; ip = i;
 	}
 	
-	public Scalar clone()
+	public Complex clone()
 	{
-		return new Complex(realPart, imaginaryPart);
+		return new Complex(rp,ip);
 	}
 	
 	public void copy(Complex c)
 	{
-		realPart.copy(c.realPart);
-		imaginaryPart.copy(c.imaginaryPart);
+		rp = c.rp;
+		ip = c.ip;
 	}
 	
 	public void addBy(Complex c)
 	{
-		realPart.addBy(c.realPart);
-		imaginaryPart.addBy(c.imaginaryPart);
+		rp += c.rp; ip += c.ip;
 	}
 	
 	public void multiplyBy(Complex c)
 	{
-		Complex real = realPart.clone();
-		Complex imag = imaginaryPart.clone();
-		
-		realPart.multiplyBy(c.realPart); // now r * cr
-		imag.multiplyBy(c.imaginaryPart); // now i * ci
-		imag.multiplyBy(-1); // now -i * ci
-		realPart.addBy(imag); // now r*cr-i*ci
-		
-		imaginaryPart.multiplyBy(c.realPart); //now i*cr
-		real.multiplyBy(c.imaginaryPart); // now r*ci
-		imaginaryPart.addBy(real); //now r*ci+i*cr
+		r = rp; i = ip;
+		rp = r * c.r - i * c.i;
+		ip = r * c.i + i * c.r;
+	}
+	
+	public void square()
+	{
+		r = rp; i = ip;
+		rp = r * r - i * i;
+		ip = 2 * r * i;
 	}
 	
 	public double magnitude()
 	{
-		double r = realPart.size();
-		double i = imaginaryPart.size();
-		return r*r + i*i
+		return rp * rp + ip * ip;
 	}
 	
 }
