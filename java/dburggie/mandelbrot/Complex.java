@@ -20,6 +20,21 @@ public class Complex
 		return new Complex(rp,ip);
 	}
 	
+	public void setXY(double x, double y)
+	{
+		rp = x; ip = y;
+	}
+	
+	public void setRealPart(double x)
+	{
+		rp = x;
+	}
+	
+	public double getRealPart() { return rp; }
+	public double getImagPart() { return ip; }
+	
+	
+	
 	public void copy(Complex c)
 	{
 		rp = c.rp;
@@ -31,16 +46,21 @@ public class Complex
 		rp += c.rp; ip += c.ip;
 	}
 	
+	public void scale(double s)
+	{
+		rp *= s; ip *= s;
+	}
+	
 	public void multiplyBy(Complex c)
 	{
-		r = rp; i = ip;
-		rp = r * c.r - i * c.i;
-		ip = r * c.i + i * c.r;
+		double r = rp, i = ip;
+		rp = r * c.rp - i * c.ip;
+		ip = r * c.ip + i * c.rp;
 	}
 	
 	public void square()
 	{
-		r = rp; i = ip;
+		double r = rp, i = ip;
 		rp = r * r - i * i;
 		ip = 2 * r * i;
 	}

@@ -21,6 +21,15 @@ public class Zed
 		hasEscaped();
 	}
 	
+	public void refresh(double x, double y)
+	{
+		position.setXY(x,y);
+		iteration.copy(position);
+		generation = 1;
+		bound = true;
+		hasEscaped();
+	}
+	
 	public void refresh(Complex p)
 	{
 		position.copy(p);
@@ -30,28 +39,34 @@ public class Zed
 		hasEscaped();
 	}
 	
-	public void iterate()
+	public void iterate(int n)
 	{
-		if (bound)
+		for (int i = 0; i < n; i++)
 		{
+			if (!bound)
+			{
+				break;
+			}
+			
 			iteration.square();
 			iteration.addBy(position);
-			generation += 1;
+			hasEscaped();
 		}
-		
-		return hasEscaped();
 	}
 	
-	public boolean hasEscaped()
+	public int hasEscaped()
 	{
 		if (bound)
 		{
 			if (iteration.magnitude() > 4.0)
 			{
 				bound = false;
+				return generation;
 			}
+			
+			return 0;
 		}
 		
-		return bound;
+		return generation;
 	}
 }
