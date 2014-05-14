@@ -1,0 +1,61 @@
+<project name="jatrace" default="compile" basedir=".">
+	<description>
+		A 3D rendering library.
+	</description>
+	
+	<!-- Global Properties -->
+	<property name="src" location="java"/>
+	<property name="test" location="test"/>
+	<property name="build" location="build" />
+	<property name="docs" location="docs" />
+	<property name="dist" location="dist" />
+	
+	
+	
+	<!-- Build Targets -->
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build}"/>
+	</target>
+	
+	<target name="compile" depends="init"
+			description="compile source files">
+		<javac srcdir="${src}" destdir="${build}"/>
+	</target>
+	
+	<target name="test" depends="compile"
+			description="make tests">
+		<javac srcdir="${test}" destdir="${build}"/>
+		<copy todir="${build}">
+			<fileset dir="${test}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="doc"
+			description="generates documentation with javadocs">
+		<mkdir dir="${docs}"/>
+		<javadoc sourcepath="${src}" destdir="${docs}"/>
+	</target>
+	
+	<target name="dist" depends="compile"
+			description="build distribution">
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/jatrace-${DSTAMP}.jar" basedir="${build}"/>
+	</target>
+	
+	
+	
+	<!-- Cleanup Targets -->
+	<target name="clean"
+			description="cleans up intermediate build files">
+		<delete dir="${build}"/>
+	</target>
+	<target name="clobber" depends="clean"
+			description="cleans up all build files and documentation">
+		<delete dir="${docs}"/>
+		<delete dir="${dist}"/>
+	</target>
+	
+</project>
