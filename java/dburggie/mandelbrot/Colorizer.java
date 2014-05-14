@@ -19,12 +19,11 @@ public class Colorizer extends MyColor
 	public MyColor colorize()
 	{
 		
-		int gen = zed.hasEscaped();
+		int speed = zed.speed(depth);
 		double rate = 1.0, rg = 0.0, b = 0.0;
-		
-		if (gen > 0)
+		if (speed > 0)
 		{
-			rate = (depth - gen) / ( depth - 1.0);
+			rate = ( (double) speed ) / (depth - 1);
 			rg = 0.7 * rate * rate;
 			b = 0.3 + 0.7 * rate;
 		}

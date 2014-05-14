@@ -125,4 +125,43 @@ public class Mandelbrot
 	}
 	
 	
+	
+	public static void main(String [] args)
+	{
+		double xpos, ypos, width;
+		int pixels, depth;
+		
+		try
+		{
+			
+			if (args.length != 5)
+			{
+				throw new Exception();
+			}
+			
+			xpos = Double.parseDouble(args[0]);
+			ypos = Double.parseDouble(args[1]);
+			width = Double.parseDouble(args[2]);
+			pixels = Integer.decode(args[3]);
+			depth = Integer.decode(args[4]);
+			
+		}
+		
+		catch (Exception e)
+		{
+			System.out.println("Error parsing arguments: using defaults.");
+			System.out.println("Usage: Mandelbrot x y width pixels depth");
+			xpos = 0.0; ypos = 0.0; width = 4.0;
+			pixels = 400; depth = 32;
+		}
+		
+		Mandelbrot man = new Mandelbrot();
+		man.setPosition(xpos,ypos);
+		man.setWindow(width,width);
+		man.setResolution(pixels,pixels);
+		man.setDepth(depth);
+		man.render();
+		
+	}
+	
 }

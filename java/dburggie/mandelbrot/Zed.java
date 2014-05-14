@@ -41,7 +41,7 @@ public class Zed
 	
 	public void iterate(int n)
 	{
-		for (int i = 0; i < n; i++)
+		while (generation < n + 1)
 		{
 			if (!bound)
 			{
@@ -50,23 +50,21 @@ public class Zed
 			
 			iteration.square();
 			iteration.addBy(position);
+			generation += 1;
 			hasEscaped();
 		}
 	}
 	
-	public int hasEscaped()
+	public int speed(int depth)
 	{
-		if (bound)
+		return depth - generation;
+	}
+	
+	public void hasEscaped()
+	{
+		if (bound && iteration.magnitude() > 4.0)
 		{
-			if (iteration.magnitude() > 4.0)
-			{
 				bound = false;
-				return generation;
-			}
-			
-			return 0;
 		}
-		
-		return generation;
 	}
 }
