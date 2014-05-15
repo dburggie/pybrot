@@ -80,13 +80,23 @@ public class Mandelbrot
 	
 	public boolean render()
 	{
-		String filename = "mandelbrot-";
-		filename += xPixels + "x" + yPixels;
-		filename += "x" + depth + ".png";
-		return render(filename);
+		return render(2.0);
 	}
 	
 	public boolean render(String filename)
+	{
+		return render(filename, 2.0);
+	}
+	
+	public boolean render(double power)
+	{
+		String filename = "mandelbrot-";
+		filename += xPixels + "x" + yPixels;
+		filename += "x" + depth + ".png";
+		return render(filename, power);
+	}
+	
+	public boolean render(String filename, double power)
 	{
 		if (verify())
 		{
@@ -114,7 +124,7 @@ public class Mandelbrot
 			{
 				tracker.refresh(pos);
 				tracker.iterate(depth);
-				image.setPixel(x,y,color.colorize(tracker,depth));
+				image.setPixel(x,y,color.colorize(tracker,depth,power));
 				pos.addBy(dx);
 			}
 			pos.addBy(dy);
@@ -128,13 +138,13 @@ public class Mandelbrot
 	
 	public static void main(String [] args)
 	{
-		double xpos, ypos, width;
+		double xpos, ypos, width, power;
 		int pixels, depth;
 		
 		try
 		{
 			
-			if (args.length != 5)
+			if (args.length < 5 || args.length > 6)
 			{
 				throw new Exception();
 			}
@@ -144,6 +154,8 @@ public class Mandelbrot
 			width = Double.parseDouble(args[2]);
 			pixels = Integer.decode(args[3]);
 			depth = Integer.decode(args[4]);
+			if (args.length == 6) { power = Double.parseDouble(args[5]); }
+			else { power = 2.0; }
 			
 		}
 		
@@ -151,7 +163,7 @@ public class Mandelbrot
 		{
 			System.out.println("Error parsing arguments: using defaults.");
 			System.out.println("Usage: Mandelbrot x y width pixels depth");
-			xpos = 0.0; ypos = 0.0; width = 4.0;
+			xpos = 0.0; ypos = 0.0; width = 4.0; power = 2.0;
 			pixels = 400; depth = 32;
 		}
 		
@@ -160,7 +172,7 @@ public class Mandelbrot
 		man.setWindow(width,width);
 		man.setResolution(pixels,pixels);
 		man.setDepth(depth);
-		man.render();
+		man.render(power);
 		
 	}
 	
